@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="1000" viewBox="0 0 800 1000" fill="none">
+  <rect width="800" height="1000" fill="#85C8D0"/>
+  <rect x="60" y="80" width="680" height="840" rx="24" fill="#2D8FB5" opacity="0.35"/>
+  <text x="400" y="480" text-anchor="middle" fill="#0F172A" font-family="system-ui,sans-serif" font-size="28" font-weight="600">Foto da instrutora</text>
+  <text x="400" y="530" text-anchor="middle" fill="#0F172A" font-family="system-ui,sans-serif" font-size="18">Exportar do Figma � public/</text>
+</svg>

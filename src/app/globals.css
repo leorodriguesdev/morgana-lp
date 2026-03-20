@@ -1,0 +1,39 @@
+@import "tailwindcss";
+
+:root {
+  --brand-yellow: #ffbe33;
+  --brand-orange: #eb3a01;
+  --brand-green: #36d401;
+  --brand-teal: #2d8fb5;
+  --brand-teal-light: #85c8d0;
+  --brand-red: #ff1818;
+  --brand-ink: #0f172a;
+}
+
+@theme inline {
+  --color-brand-yellow: var(--brand-yellow);
+  --color-brand-orange: var(--brand-orange);
+  --color-brand-green: var(--brand-green);
+  --color-brand-teal: var(--brand-teal);
+  --color-brand-teal-light: var(--brand-teal-light);
+  --color-brand-red: var(--brand-red);
+  --color-brand-ink: var(--brand-ink);
+  --font-sans: var(--font-poppins), ui-sans-serif, system-ui, sans-serif;
+}
+
+@keyframes marquee-scroll {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+.animate-marquee {
+  animation: marquee-scroll 45s linear infinite;
+}
+
+body {
+  font-family: var(--font-poppins), ui-sans-serif, system-ui, sans-serif;
+}
