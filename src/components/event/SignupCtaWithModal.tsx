@@ -12,6 +12,27 @@ interface SignupCtaWithModalProps {
 
 const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
+const UTM_KEYS = [
+  "utm_source",
+  "utm_medium",
+  "utm_campaign",
+  "utm_conjunto",
+  "utm_content",
+  "utm_term",
+  "src",
+] as const;
+
+function attributionFromSearch(): Record<string, string> {
+  if (typeof window === "undefined") return {};
+  const params = new URLSearchParams(window.location.search);
+  const out: Record<string, string> = {};
+  for (const key of UTM_KEYS) {
+    const v = params.get(key);
+    if (v) out[key] = v;
+  }
+  return out;
+}
+
 export function SignupCtaWithModal({
   label,
   className,
@@ -21,6 +42,7 @@ export function SignupCtaWithModal({
   const [isOpen, setIsOpen] = useState(false);
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
+  const [phone, setPhone] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [nameError, setNameError] = useState("");
   const [emailError, setEmailError] = useState("");
@@ -46,6 +68,7 @@ export function SignupCtaWithModal({
   const resetForm = () => {
     setName("");
     setEmail("");
+    setPhone("");
     setNameError("");
     setEmailError("");
     setSubmitError("");
@@ -82,12 +105,18 @@ export function SignupCtaWithModal({
       const query =
         typeof window !== "undefined" ? window.location.search : "";
 
+      const attribution = attributionFromSearch();
+
       const res = await fetch("/api/leads", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           name: normalizedName,
           email: normalizedEmail,
+          phone: phone.trim(),
+          ...Object.fromEntries(
+            UTM_KEYS.map((k) => [k, attribution[k] ?? ""]),
+          ),
         }),
       });
 
@@ -136,7 +165,7 @@ export function SignupCtaWithModal({
                   Confirmar inscrição
                 </h2>
                 <p className="mt-1 text-sm text-brand-ink/80">
-                  Preencha nome e e-mail para continuar.
+                  Preencha nome e e-mail para continuar. WhatsApp opcional.
                 </p>
               </div>
               <button
@@ -197,6 +226,26 @@ export function SignupCtaWithModal({
                     {emailError}
                   </p>
                 ) : null}
+              </div>
+
+              <div>
+                <label
+                  htmlFor="signup-phone"
+                  className="mb-1 block text-sm font-semibold text-brand-ink"
+                >
+                  WhatsApp <span className="font-normal text-brand-ink/60">(opcional)</span>
+                </label>
+                <input
+                  id="signup-phone"
+                  name="phone"
+                  value={phone}
+                  onChange={(event) => setPhone(event.target.value)}
+                  type="tel"
+                  autoComplete="tel"
+                  inputMode="tel"
+                  className="w-full rounded-lg border border-brand-ink/20 px-3 py-2 text-sm outline-none transition focus:border-brand-teal focus:ring-2 focus:ring-brand-teal/20"
+                  placeholder="+5587999999999"
+                />
               </div>
 
               <PrimaryCta
