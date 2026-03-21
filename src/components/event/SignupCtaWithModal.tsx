@@ -24,6 +24,7 @@ export function SignupCtaWithModal({
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [nameError, setNameError] = useState("");
   const [emailError, setEmailError] = useState("");
+  const [submitError, setSubmitError] = useState("");
 
   const isFormValid = useMemo(() => {
     return name.trim().length >= 2 && EMAIL_REGEX.test(email.trim());
@@ -47,6 +48,7 @@ export function SignupCtaWithModal({
     setEmail("");
     setNameError("");
     setEmailError("");
+    setSubmitError("");
   };
 
   const handleClose = () => {
@@ -73,10 +75,34 @@ export function SignupCtaWithModal({
       return;
     }
 
+    setSubmitError("");
+
     try {
       setIsSubmitting(true);
-      /** Repassa query da LP (src, utm_*, etc.) — ver planilha `UTMs - UTMS.csv`. */
-      const query = typeof window !== "undefined" ? window.location.search : "";
+      const query =
+        typeof window !== "undefined" ? window.location.search : "";
+
+      const res = await fetch("/api/leads", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name: normalizedName,
+          email: normalizedEmail,
+        }),
+      });
+
+      const payload = (await res.json().catch(() => ({}))) as {
+        error?: string;
+      };
+
+      if (!res.ok) {
+        setSubmitError(
+          payload.error ??
+            "Nao foi possivel registrar agora. Tente de novo em instantes.",
+        );
+        return;
+      }
+
       router.push(`/inscricao-confirmada${query}`);
     } finally {
       setIsSubmitting(false);
@@ -181,6 +207,15 @@ export function SignupCtaWithModal({
               >
                 {isSubmitting ? "Enviando..." : "Enviar e continuar"}
               </PrimaryCta>
+
+              {submitError ? (
+                <p
+                  className="text-center text-sm font-medium text-red-600"
+                  role="alert"
+                >
+                  {submitError}
+                </p>
+              ) : null}
 
               <button
                 type="button"
