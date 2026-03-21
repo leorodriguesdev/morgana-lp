@@ -133,7 +133,7 @@ export function SignupCtaWithModal({
                   id="inscricao-modal-titulo"
                   className="text-xl font-bold text-brand-teal"
                 >
-                  Confirmar inscricao
+                  Confirmar inscrição
                 </h2>
                 <p className="mt-1 text-sm text-brand-ink/80">
                   Preencha nome e e-mail para continuar.
