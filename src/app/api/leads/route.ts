@@ -55,7 +55,7 @@ export async function POST(request: Request) {
   try {
     body = (await request.json()) as LeadBody;
   } catch {
-    return NextResponse.json({ error: "JSON invalido." }, { status: 400 });
+    return NextResponse.json({ error: "JSON inválido." }, { status: 400 });
   }
 
   const nome = str(body.name, MAX_NAME);
@@ -63,10 +63,10 @@ export async function POST(request: Request) {
   const phone = str(body.phone, MAX_PHONE);
 
   if (nome.length < 2) {
-    return NextResponse.json({ error: "Nome invalido." }, { status: 400 });
+    return NextResponse.json({ error: "Nome inválido." }, { status: 400 });
   }
   if (!EMAIL_REGEX.test(email)) {
-    return NextResponse.json({ error: "E-mail invalido." }, { status: 400 });
+    return NextResponse.json({ error: "E-mail inválido." }, { status: 400 });
   }
 
   const utm = {} as Record<(typeof UTM_KEYS)[number], string>;
@@ -76,9 +76,9 @@ export async function POST(request: Request) {
 
   const supabase = getSupabaseAdmin();
   if (!supabase) {
-    console.error("[api/leads] Supabase admin nao configurado (env).");
+    console.error("[api/leads] Supabase admin não configurado (env).");
     return NextResponse.json(
-      { error: "Cadastro temporariamente indisponivel." },
+      { error: "Cadastro temporariamente indisponível." },
       { status: 503 },
     );
   }
@@ -126,7 +126,7 @@ export async function POST(request: Request) {
       console.error("[api/leads] SellFlux webhook", e);
     }
   } else {
-    console.warn("[api/leads] SELLFLUX_FORM_WEBHOOK_URL nao configurada.");
+    console.warn("[api/leads] SELLFLUX_FORM_WEBHOOK_URL não configurada.");
   }
 
   return NextResponse.json({ ok: true }, { status: 200 });

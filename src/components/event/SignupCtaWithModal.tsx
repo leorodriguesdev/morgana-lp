@@ -22,6 +22,13 @@ const UTM_KEYS = [
   "src",
 ] as const;
 
+type EmailAvailability =
+  | "idle"
+  | "checking"
+  | "available"
+  | "taken"
+  | "error";
+
 function attributionFromSearch(): Record<string, string> {
   if (typeof window === "undefined") return {};
   const params = new URLSearchParams(window.location.search);
@@ -47,10 +54,58 @@ export function SignupCtaWithModal({
   const [nameError, setNameError] = useState("");
   const [emailError, setEmailError] = useState("");
   const [submitError, setSubmitError] = useState("");
+  const [emailAvailability, setEmailAvailability] =
+    useState<EmailAvailability>("idle");
+  const [emailCheckRetry, setEmailCheckRetry] = useState(0);
 
   const isFormValid = useMemo(() => {
     return name.trim().length >= 2 && EMAIL_REGEX.test(email.trim());
   }, [name, email]);
+
+  const canSubmit =
+    isFormValid &&
+    emailAvailability === "available" &&
+    !isSubmitting;
+
+  useEffect(() => {
+    const trimmed = email.trim();
+    if (!EMAIL_REGEX.test(trimmed)) {
+      setEmailAvailability("idle");
+      return;
+    }
+
+    setEmailAvailability("idle");
+
+    const ctrl = new AbortController();
+    const timer = window.setTimeout(async () => {
+      setEmailAvailability("checking");
+      try {
+        const res = await fetch("/api/leads/check-email", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ email: trimmed.toLowerCase() }),
+          signal: ctrl.signal,
+        });
+        const json = (await res.json().catch(() => ({}))) as {
+          registered?: boolean;
+        };
+        if (ctrl.signal.aborted) return;
+        if (!res.ok) {
+          setEmailAvailability("error");
+          return;
+        }
+        setEmailAvailability(json.registered ? "taken" : "available");
+      } catch {
+        if (ctrl.signal.aborted) return;
+        setEmailAvailability("error");
+      }
+    }, 480);
+
+    return () => {
+      window.clearTimeout(timer);
+      ctrl.abort();
+    };
+  }, [email, emailCheckRetry]);
 
   useEffect(() => {
     if (!isOpen) return;
@@ -72,6 +127,8 @@ export function SignupCtaWithModal({
     setNameError("");
     setEmailError("");
     setSubmitError("");
+    setEmailAvailability("idle");
+    setEmailCheckRetry(0);
   };
 
   const handleClose = () => {
@@ -89,12 +146,16 @@ export function SignupCtaWithModal({
       normalizedName.length >= 2 ? "" : "Informe seu nome completo.";
     const currentEmailError = EMAIL_REGEX.test(normalizedEmail)
       ? ""
-      : "Informe um e-mail valido.";
+      : "Informe um e-mail válido.";
 
     setNameError(currentNameError);
     setEmailError(currentEmailError);
 
     if (currentNameError || currentEmailError) {
+      return;
+    }
+
+    if (emailAvailability !== "available") {
       return;
     }
 
@@ -127,7 +188,7 @@ export function SignupCtaWithModal({
       if (!res.ok) {
         setSubmitError(
           payload.error ??
-            "Nao foi possivel registrar agora. Tente de novo em instantes.",
+            "Não foi possível registrar agora. Tente de novo em instantes.",
         );
         return;
       }
@@ -165,14 +226,14 @@ export function SignupCtaWithModal({
                   Confirmar inscrição
                 </h2>
                 <p className="mt-1 text-sm text-brand-ink/80">
-                  Preencha nome e e-mail para continuar. WhatsApp opcional.
+                  Preencha nome e e-mail para continuar. WhatsApp é opcional.
                 </p>
               </div>
               <button
                 type="button"
                 onClick={handleClose}
                 className="rounded-md px-2 py-1 text-sm font-semibold text-brand-ink/70 transition-[transform,background-color] duration-150 hover:bg-gray-100 motion-safe:active:scale-95"
-                aria-label="Fechar modal"
+                aria-label="Fechar"
               >
                 X
               </button>
@@ -217,14 +278,63 @@ export function SignupCtaWithModal({
                   onChange={(event) => setEmail(event.target.value)}
                   type="email"
                   autoComplete="email"
-                  className="w-full rounded-lg border border-brand-ink/20 px-3 py-2 text-sm outline-none transition focus:border-brand-teal focus:ring-2 focus:ring-brand-teal/20"
-                  placeholder="voce@email.com"
+                  aria-invalid={
+                    emailError ? true : emailAvailability === "taken"
+                  }
+                  aria-describedby={
+                    EMAIL_REGEX.test(email.trim())
+                      ? "signup-email-status"
+                      : undefined
+                  }
+                  className={`w-full rounded-lg border px-3 py-2 text-sm outline-none transition focus:ring-2 focus:ring-brand-teal/20 ${
+                    emailAvailability === "taken"
+                      ? "border-red-400 focus:border-red-500"
+                      : emailAvailability === "available"
+                        ? "border-emerald-500/60 focus:border-brand-teal"
+                        : "border-brand-ink/20 focus:border-brand-teal"
+                  }`}
+                  placeholder="voce@exemplo.com"
                   required
                 />
                 {emailError ? (
                   <p className="mt-1 text-xs font-medium text-red-600">
                     {emailError}
                   </p>
+                ) : null}
+                {EMAIL_REGEX.test(email.trim()) ? (
+                  <div id="signup-email-status" className="mt-1 space-y-1">
+                    {emailAvailability === "checking" ? (
+                      <p className="text-xs font-medium text-brand-ink/70">
+                        Verificando e-mail...
+                      </p>
+                    ) : null}
+                    {emailAvailability === "available" ? (
+                      <p className="text-xs font-medium text-emerald-700">
+                        E-mail disponível para inscrição.
+                      </p>
+                    ) : null}
+                    {emailAvailability === "taken" ? (
+                      <p className="text-xs font-medium text-red-600">
+                        Este e-mail já está cadastrado. Use outro e-mail.
+                      </p>
+                    ) : null}
+                    {emailAvailability === "error" ? (
+                      <div className="flex flex-wrap items-center gap-2">
+                        <p className="text-xs font-medium text-amber-800">
+                          Não foi possível verificar o e-mail.
+                        </p>
+                        <button
+                          type="button"
+                          onClick={() =>
+                            setEmailCheckRetry((n) => n + 1)
+                          }
+                          className="text-xs font-semibold text-brand-teal underline hover:no-underline"
+                        >
+                          Tentar de novo
+                        </button>
+                      </div>
+                    ) : null}
+                  </div>
                 ) : null}
               </div>
 
@@ -253,8 +363,13 @@ export function SignupCtaWithModal({
                 className="w-full"
                 onClick={undefined}
                 variant="default"
+                disabled={!canSubmit}
               >
-                {isSubmitting ? "Enviando..." : "Enviar e continuar"}
+                {isSubmitting
+                  ? "Enviando..."
+                  : emailAvailability === "checking"
+                    ? "Verificando e-mail..."
+                    : "Enviar e continuar"}
               </PrimaryCta>
 
               {submitError ? (
@@ -277,7 +392,7 @@ export function SignupCtaWithModal({
 
             {!isFormValid ? (
               <p className="mt-4 text-center text-xs text-brand-ink/60">
-                Use um nome valido e um e-mail valido para continuar.
+                Use um nome válido e um e-mail válido.
               </p>
             ) : null}
           </div>

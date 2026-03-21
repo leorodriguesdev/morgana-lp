@@ -10,6 +10,7 @@ interface PrimaryCtaProps {
   type?: "button" | "submit";
   target?: React.HTMLAttributeAnchorTarget;
   rel?: string;
+  disabled?: boolean;
 }
 
 export function PrimaryCta({
@@ -21,6 +22,7 @@ export function PrimaryCta({
   type = "button",
   target,
   rel,
+  disabled = false,
 }: PrimaryCtaProps) {
   const base =
     "inline-flex min-h-11 cursor-pointer select-none items-center justify-center rounded-[10px] px-8 py-3 text-center text-sm font-bold uppercase tracking-wide text-white " +
@@ -49,7 +51,12 @@ export function PrimaryCta({
   }
 
   return (
-    <button type={type} onClick={onClick} className={classes}>
+    <button
+      type={type}
+      onClick={onClick}
+      disabled={disabled}
+      className={`${classes} disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-45 disabled:brightness-100`}
+    >
       {children}
     </button>
   );
