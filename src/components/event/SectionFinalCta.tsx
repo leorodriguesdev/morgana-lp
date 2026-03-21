@@ -1,13 +1,12 @@
 import { Container } from "@/components/ui/Container";
-import { PrimaryCta } from "./PrimaryCta";
+import { SignupCtaWithModal } from "./SignupCtaWithModal";
 import type { EventLandingContent } from "@/types/landing";
 
 interface SectionFinalCtaProps {
   final: EventLandingContent["finalCta"];
-  cta: EventLandingContent["cta"];
 }
 
-export function SectionFinalCta({ final, cta }: SectionFinalCtaProps) {
+export function SectionFinalCta({ final }: SectionFinalCtaProps) {
   return (
     <section
       id={final.id}
@@ -22,9 +21,10 @@ export function SectionFinalCta({ final, cta }: SectionFinalCtaProps) {
           {final.title}
         </h2>
         <div className="mt-8 flex flex-col items-center gap-4">
-          <PrimaryCta href={cta.href} className="min-w-[min(100%,280px)] px-6">
-            {final.buttonLine}
-          </PrimaryCta>
+          <SignupCtaWithModal
+            label={final.buttonLine}
+            className="min-w-[min(100%,280px)] px-6"
+          />
           <p className="max-w-xl text-center text-base font-medium text-brand-ink sm:text-lg">
             {final.shareLine}
           </p>

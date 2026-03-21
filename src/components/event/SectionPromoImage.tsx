@@ -16,7 +16,7 @@ export function SectionPromoImage({ promo }: SectionPromoImageProps) {
       <Container>
         <div className="relative aspect-1518/492 w-full overflow-hidden rounded-[10px] bg-brand-teal-light/50 ring-1 ring-brand-teal/20">
           <Image
-            src="/placeholder-wide.png"
+            src="/placeholder-wide.svg"
             alt=""
             fill
             quality={100}

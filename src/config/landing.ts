@@ -3,7 +3,7 @@ import type { EventLandingContent } from "@/types/landing";
 export const landingConfig: EventLandingContent = {
   site: {
     name: "Primeiros Passos — Morgana da Cruz",
-    title: "Da Nova Política de Inclusão ao PAEE | Evento gratuito",
+    title: "Primeiros Passos — Morgana da Cruz",
     description:
       "Evento on-line e gratuito: 24, 25 e 26 de março. Certificado de 20h. Inscrições para professoras do AEE.",
   },

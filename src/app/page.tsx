@@ -28,7 +28,7 @@ export default function Home() {
         <SectionPromoImage promo={cfg.promoImage} />
         <SectionAbout about={cfg.about} />
         <SectionTestimonials testimonials={cfg.testimonials} />
-        <SectionFinalCta final={cfg.finalCta} cta={cfg.cta} />
+        <SectionFinalCta final={cfg.finalCta} />
       </main>
       <SiteFooter copyright={cfg.footer.copyright} />
     </>

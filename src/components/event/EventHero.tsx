@@ -1,6 +1,6 @@
 import Image from "next/image";
 import { Container } from "@/components/ui/Container";
-import { PrimaryCta } from "./PrimaryCta";
+import { SignupCtaWithModal } from "./SignupCtaWithModal";
 import type { EventLandingContent } from "@/types/landing";
 
 
@@ -83,9 +83,11 @@ export function EventHero({ hero, cta }: EventHeroProps) {
                 </p>
               </div>
 
-              <PrimaryCta href={cta.href} variant="hero">
-                {cta.primaryLabel}
-              </PrimaryCta>
+              <SignupCtaWithModal
+                label={cta.primaryLabel}
+                variant="hero"
+                className="w-full max-w-[680px]"
+              />
             </div>
           </div>
 
