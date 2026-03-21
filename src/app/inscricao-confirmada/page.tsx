@@ -1,6 +1,7 @@
 import Image from "next/image";
 import type { Metadata } from "next";
 import { PrimaryCta } from "@/components/event/PrimaryCta";
+import { MetaPixelLead } from "@/components/analytics/MetaPixelLead";
 
 export const metadata: Metadata = {
   title: "Inscrição confirmada",
@@ -29,6 +30,7 @@ export default function InscricaoConfirmadaPage() {
 
   return (
     <main className="min-h-screen bg-brand-yellow px-4 py-6 sm:py-10">
+      <MetaPixelLead />
       {/*
         Faixa de cima: max-w-6xl. Criativo: 7/12 da largura útil do pai (igual 2xl/6xl no desktop), encolhe no mobile junto com a de cima.
       */}
