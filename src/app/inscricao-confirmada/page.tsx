@@ -2,6 +2,10 @@ import Image from "next/image";
 import type { Metadata } from "next";
 import { PrimaryCta } from "@/components/event/PrimaryCta";
 import { MetaPixelLead } from "@/components/analytics/MetaPixelLead";
+import { getWhatsappGroupUrl } from "@/lib/site-settings";
+
+/** Sempre busca URL do WhatsApp no servidor (Supabase/env) em tempo de request. */
+export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
   title: "Inscrição confirmada",
@@ -24,9 +28,8 @@ const BENEFITS = [
   "As orientações práticas e cronograma oficial do curso",
 ] as const;
 
-export default function InscricaoConfirmadaPage() {
-  const whatsappUrl =
-    process.env.NEXT_PUBLIC_WHATSAPP_GROUP_URL?.trim() || "#inscricao-whatsapp";
+export default async function InscricaoConfirmadaPage() {
+  const whatsappUrl = await getWhatsappGroupUrl();
 
   return (
     <main className="min-h-screen bg-brand-yellow px-4 py-6 sm:py-10">

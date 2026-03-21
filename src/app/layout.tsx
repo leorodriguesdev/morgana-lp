@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 import { Poppins } from "next/font/google";
+import { Analytics } from "@vercel/analytics/next";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 import "./globals.css";
 import { landingConfig } from "@/config/landing";
 import { MetaPixel } from "@/components/analytics/MetaPixel";
@@ -31,6 +33,8 @@ export default function RootLayout({
       <body className="min-h-full bg-brand-yellow text-brand-ink antialiased">
         <MetaPixel pixelId={metaPixelId} />
         {children}
+        <Analytics />
+        <SpeedInsights />
       </body>
     </html>
   );

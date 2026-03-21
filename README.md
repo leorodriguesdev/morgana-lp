@@ -1,5 +1,15 @@
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
+## Admin: link do WhatsApp
+
+A dona do site pode trocar o convite do grupo em **`/admin/whatsapp`**, após configurar `ADMIN_SETTINGS_PASSWORD` no ambiente (Vercel / `.env`).
+
+1. No Supabase, rode o SQL em **`docs/supabase-site-settings.sql`** (cria a tabela `site_settings`).
+2. Defina `ADMIN_SETTINGS_PASSWORD` (senha forte) e faça deploy.
+3. Acesse `/admin/whatsapp`, faça login e cole o novo link (`https://chat.whatsapp.com/...` ou `https://wa.me/...`).
+
+Prioridade do link: **valor salvo no Supabase** → `NEXT_PUBLIC_WHATSAPP_GROUP_URL` → placeholder na página.
+
 ## Getting Started
 
 First, run the development server:
