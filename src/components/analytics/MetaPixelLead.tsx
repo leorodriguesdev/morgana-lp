@@ -2,11 +2,15 @@
 
 import { useEffect } from "react";
 
-type FbqArgs = [method: "track", eventName: "Lead", ...rest: unknown[]];
-
 declare global {
   interface Window {
-    fbq?: (...args: FbqArgs) => void;
+    /** 4º argumento: `{ eventID }` para deduplicação com CAPI (documentação Meta). */
+    fbq?: (
+      method: "track",
+      eventName: "Lead",
+      params?: Record<string, unknown>,
+      options?: { eventID?: string },
+    ) => void;
   }
 }
 
@@ -27,7 +31,15 @@ export function MetaPixelLead({ dedupeKey = "lead-confirmed" }: MetaPixelLeadPro
       attempts += 1;
 
       if (typeof window.fbq === "function") {
-        window.fbq("track", "Lead");
+        const capiEventId = window.sessionStorage.getItem(
+          "meta-pixel:lead-event-id",
+        );
+        if (capiEventId) {
+          window.sessionStorage.removeItem("meta-pixel:lead-event-id");
+          window.fbq("track", "Lead", {}, { eventID: capiEventId });
+        } else {
+          window.fbq("track", "Lead");
+        }
         window.sessionStorage.setItem(storageKey, "1");
         window.clearInterval(timer);
         return;

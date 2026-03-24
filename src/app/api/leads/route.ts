@@ -24,6 +24,8 @@ type LeadBody = {
   name?: unknown;
   email?: unknown;
   phone?: unknown;
+  /** URL da página onde o lead ocorreu (obrigatório na CAPI para `action_source: website`). */
+  event_source_url?: unknown;
 } & Partial<Record<(typeof UTM_KEYS)[number], unknown>>;
 
 function str(v: unknown, max: number): string {
@@ -59,6 +61,46 @@ function sha256(value: string): string {
   return createHash("sha256").update(value).digest("hex");
 }
 
+function getEventSourceUrl(request: Request, body: LeadBody): string | undefined {
+  const fromBody = str(body.event_source_url, 2048);
+  const host = request.headers.get("host") ?? "";
+
+  const tryUrl = (raw: string): string | undefined => {
+    try {
+      const u = new URL(raw);
+      if (u.protocol !== "https:" && u.protocol !== "http:") return undefined;
+      if (host && u.host !== host) return undefined;
+      return u.href;
+    } catch {
+      return undefined;
+    }
+  };
+
+  if (fromBody) {
+    const ok = tryUrl(fromBody);
+    if (ok) return ok;
+  }
+
+  const referer = request.headers.get("referer");
+  if (referer) {
+    const ok = tryUrl(referer);
+    if (ok) return ok;
+  }
+
+  const site = process.env.NEXT_PUBLIC_SITE_URL?.trim();
+  if (site) {
+    try {
+      const base = new URL(site);
+      if (host && base.host !== host) return undefined;
+      return base.origin + "/";
+    } catch {
+      return undefined;
+    }
+  }
+
+  return undefined;
+}
+
 function getCookieValue(cookieHeader: string | null, key: string): string {
   if (!cookieHeader) return "";
   const token = `${key}=`;
@@ -77,8 +119,10 @@ async function sendMetaLeadEvent(params: {
   email: string;
   phone: string;
   request: Request;
+  eventSourceUrl?: string;
 }) {
-  const { pixelId, accessToken, eventId, email, phone, request } = params;
+  const { pixelId, accessToken, eventId, email, phone, request, eventSourceUrl } =
+    params;
   const cookie = request.headers.get("cookie");
   const fbp = getCookieValue(cookie, "_fbp");
   const fbc = getCookieValue(cookie, "_fbc");
@@ -106,6 +150,7 @@ async function sendMetaLeadEvent(params: {
         event_time: Math.floor(Date.now() / 1000),
         action_source: "website",
         event_id: eventId,
+        ...(eventSourceUrl ? { event_source_url: eventSourceUrl } : {}),
         user_data,
       },
     ],
@@ -218,6 +263,14 @@ export async function POST(request: Request) {
 
   const metaPixelId = process.env.NEXT_PUBLIC_META_PIXEL_ID?.trim();
   const metaAccessToken = process.env.META_ACCESS_TOKEN?.trim();
+  const eventSourceUrl = getEventSourceUrl(request, body);
+  if (!eventSourceUrl) {
+    console.warn(
+      "[api/leads] event_source_url ausente: envie event_source_url no body, configure Referer ou NEXT_PUBLIC_SITE_URL.",
+    );
+  }
+
+  let metaEventId: string | undefined;
   if (metaPixelId && metaAccessToken) {
     const eventId = randomUUID();
     try {
@@ -228,7 +281,9 @@ export async function POST(request: Request) {
         email,
         phone,
         request,
+        eventSourceUrl,
       });
+      metaEventId = eventId;
     } catch (e) {
       console.error("[api/leads] Meta CAPI", e);
     }
@@ -236,7 +291,10 @@ export async function POST(request: Request) {
     console.warn("[api/leads] NEXT_PUBLIC_META_PIXEL_ID/META_ACCESS_TOKEN ausentes.");
   }
 
-  return NextResponse.json({ ok: true }, { status: 200 });
+  return NextResponse.json(
+    { ok: true, ...(metaEventId ? { metaEventId } : {}) },
+    { status: 200 },
+  );
 }
 
 export function GET() {

@@ -175,6 +175,8 @@ export function SignupCtaWithModal({
           name: normalizedName,
           email: normalizedEmail,
           phone: phone.trim(),
+          event_source_url:
+            typeof window !== "undefined" ? window.location.href : "",
           ...Object.fromEntries(
             UTM_KEYS.map((k) => [k, attribution[k] ?? ""]),
           ),
@@ -183,6 +185,7 @@ export function SignupCtaWithModal({
 
       const payload = (await res.json().catch(() => ({}))) as {
         error?: string;
+        metaEventId?: string;
       };
 
       if (!res.ok) {
@@ -191,6 +194,17 @@ export function SignupCtaWithModal({
             "Não foi possível registrar agora. Tente de novo em instantes.",
         );
         return;
+      }
+
+      if (
+        typeof payload.metaEventId === "string" &&
+        payload.metaEventId.length > 0 &&
+        typeof window !== "undefined"
+      ) {
+        sessionStorage.setItem(
+          "meta-pixel:lead-event-id",
+          payload.metaEventId,
+        );
       }
 
       router.push(`/inscricao-confirmada${query}`);
