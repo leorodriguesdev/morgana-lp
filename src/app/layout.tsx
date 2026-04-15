@@ -7,6 +7,20 @@ import "./globals.css";
 import { landingConfig } from "@/config/landing";
 import { MetaPixel } from "@/components/analytics/MetaPixel";
 
+/** Base canônica para og:url e og:image absolutos (WhatsApp / Meta exigem URL absoluta). */
+function metadataBaseUrl(): URL {
+  const fromEnv = process.env.NEXT_PUBLIC_SITE_URL?.trim();
+  if (fromEnv) {
+    const normalized = fromEnv.replace(/\/$/, "");
+    return new URL(`${normalized}/`);
+  }
+  const vercel = process.env.VERCEL_URL?.trim();
+  if (vercel) {
+    return new URL(`https://${vercel.replace(/^https?:\/\//, "")}/`);
+  }
+  return new URL("http://localhost:3000/");
+}
+
 const poppins = Poppins({
   variable: "--font-poppins",
   subsets: ["latin"],
@@ -14,12 +28,40 @@ const poppins = Poppins({
   display: "swap",
 });
 
+const site = landingConfig.site;
+
 export const metadata: Metadata = {
+  metadataBase: metadataBaseUrl(),
   title: {
-    default: landingConfig.site.title,
-    template: `%s | ${landingConfig.site.name}`,
+    default: site.title,
+    template: `%s | ${site.name}`,
   },
-  description: landingConfig.site.description,
+  description: site.description,
+  applicationName: site.name,
+  openGraph: {
+    type: "website",
+    locale: "pt_BR",
+    siteName: site.name,
+    title: site.title,
+    description: site.description,
+    images: [
+      {
+        url: site.shareImage,
+        alt: site.shareImageAlt,
+        type: "image/png",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: site.title,
+    description: site.description,
+    images: [site.shareImage],
+  },
+  robots: {
+    index: true,
+    follow: true,
+  },
 };
 
 export default function RootLayout({

@@ -12,6 +12,10 @@ export interface EventLandingContent {
     name: string;
     title: string;
     description: string;
+    /** Caminho em /public — Open Graph, WhatsApp, X, LinkedIn */
+    shareImage: string;
+    /** og:image:alt / acessibilidade em previews */
+    shareImageAlt: string;
   };
   cta: {
     primaryLabel: string;

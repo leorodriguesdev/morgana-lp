@@ -5,7 +5,10 @@ export const landingConfig: EventLandingContent = {
     name: "Primeiros Passos — Morgana da Cruz",
     title: "Primeiros Passos — Morgana da Cruz",
     description:
-      "Evento on-line e gratuito: 24, 25 e 26 de março. Certificado de 20h. Inscrições para professoras do AEE.",
+      "Evento on-line e gratuito: 26, 27 e 28 de maio. Certificado de 20h. Inscrições para professoras do AEE.",
+    shareImage: "/banner.png",
+    shareImageAlt:
+      "Curso gratuito Primeiros Passos para um AEE eficiente — 26, 27 e 28 de maio. Da Nova Política de Inclusão ao PAEE.",
   },
   cta: {
     primaryLabel: "Quero me inscrever agora",
@@ -15,7 +18,7 @@ export const landingConfig: EventLandingContent = {
     bannerImageAlt:
       "Curso gratuito, Primeiros passos para um AEE eficiente — faixa promocional",
     headline: "Da Nova Política de Inclusão ao PAEE",
-    dates: "24, 25 e 26 de março",
+    dates: "26, 27 e 28 de maio",
     eventLines: ["Evento on-line e gratuito", "Certificado de 20h"],
     supporting:
       "Inscreva-se gratuitamente e comece o ano no AEE sem medo, sem improviso e sem erros.",
