@@ -55,28 +55,58 @@ export function EventHero({ hero, cta }: EventHeroProps) {
                 />
               </div>
 
-              <p className="animate-hero-2 max-w-[488px] text-balance text-[clamp(1.5rem,4.2vw,3.05rem)] font-bold leading-[1.2] text-brand-orange">
+              <p className="animate-hero-2 max-w-[452px] text-balance text-[clamp(1.5rem,4.2vw,3.05rem)] font-bold leading-[1.2] text-brand-orange pl-2">
                 {hero.headline}
               </p>
 
-              <p className="animate-hero-3 text-[clamp(1.35rem,3.8vw,2.55rem)] font-bold leading-tight text-brand-teal">
-                {hero.dates}
-              </p>
-
-              <div className="animate-hero-4 max-w-[442px] rounded-[10px] bg-gradient-to-br from-brand-green to-[#28a800] px-5 py-4 text-white ring-1 ring-white/25 shadow-[0_4px_20px_rgba(54,212,1,0.45)]">
-                <p className="text-[clamp(1rem,2.4vw,1.35rem)] font-bold leading-snug">
-                  {hero.eventLines[0]}
-                </p>
-                <p className="text-[clamp(1rem,2.4vw,1.35rem)] font-bold leading-snug">
-                  {hero.eventLines[1]}
-                </p>
+              <div
+                className="animate-hero-5 w-full max-w-[488px]"
+                role="group"
+                aria-label="Promessa do curso"
+              >
+                <div className="rounded-2xl bg-gradient-to-br from-brand-orange to-[#c43000] px-4 py-3.5 shadow-[0_8px_32px_rgba(235,58,1,0.45)] ring-1 ring-white/25 sm:px-5 sm:py-4">
+                  <p className="mb-1.5 text-[0.65rem] font-extrabold uppercase tracking-[0.22em] text-brand-yellow sm:text-[0.7rem]">
+                    Em resumo
+                  </p>
+                  <p className="text-balance text-[clamp(1.05rem,calc(1rem+1.2vw),1.2rem)] font-extrabold leading-relaxed text-white sm:text-[clamp(1.1rem,2vw,1.2rem)]">
+                    {hero.promise}
+                  </p>
+                </div>
               </div>
 
-              <div className="animate-hero-5 max-w-[488px] rounded-[10px] bg-gradient-to-br from-brand-orange to-[#c43000] px-5 py-4 text-white ring-1 ring-white/20 shadow-[0_4px_20px_rgba(235,58,1,0.4)]">
-                <p className="text-[clamp(0.9rem,2vw,1.15rem)] font-bold leading-relaxed">
-                  {hero.promise}
-                </p>
+              <div
+                className="animate-hero-3 w-full max-w-[488px]"
+                role="group"
+                aria-label="Datas do evento"
+              >
+                <div className="rounded-2xl bg-gradient-to-br from-brand-teal to-[#15658a] px-4 py-3.5 shadow-[0_8px_32px_rgba(45,143,181,0.45)] ring-1 ring-white/20 sm:px-5 sm:py-4">
+                  <p className="mb-1.5 text-[0.65rem] font-extrabold uppercase tracking-[0.22em] text-brand-yellow sm:text-[0.7rem]">
+                    Quando
+                  </p>
+                  <p className="text-balance text-[clamp(1.55rem,calc(4.5vw+0.35rem),2.65rem)] font-extrabold leading-[1.15] tracking-tight text-white">
+                    {hero.dates}
+                  </p>
+                </div>
               </div>
+
+              <div
+                className="animate-hero-4 w-full max-w-[442px]"
+                role="group"
+                aria-label="Informações do evento"
+              >
+                <div className="rounded-2xl bg-gradient-to-br from-brand-green to-[#28a800] px-4 py-3.5 shadow-[0_8px_32px_rgba(54,212,1,0.45)] ring-1 ring-white/25 sm:px-5 sm:py-4">
+
+                  <p className="text-balance text-[clamp(1rem,2.4vw,1.35rem)] font-extrabold leading-snug text-white">
+                    {hero.eventLines[0]}
+                  </p>
+                  <p className="mt-2 text-balance text-[clamp(1rem,2.4vw,1.35rem)] font-extrabold leading-snug text-white">
+                    {hero.eventLines[1]}
+                  </p>
+                </div>
+              </div>
+
+
+
 
               <div className="animate-hero-6">
                 <SignupCtaWithModal

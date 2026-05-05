@@ -105,8 +105,7 @@ export const landingConfig: EventLandingContent = {
     id: "destaque",
     alt: "Por que participar agora — urgência do ano letivo e PAEE",
     title: "Por que participar agora?",
-    body:
-      "Por que o ano letivo já está quase na metade e muitas professoras ainda nem começaram a fazer os estudos de caso ou ainda estão sofrendo para criar os PAEE. Este é um momento crítico do ano.",
+    body: "Por que o ano letivo já está quase na metade e muitas professoras ainda nem começaram a fazer os estudos de caso ou ainda estão sofrendo para criar os PAEE. Este é um momento crítico do ano.",
     closingBold:
       "Não dá para continuar com dúvidas e se sentindo insegura no segundo semestre.",
     ctaLabel: "Garantir meu ingresso gratuito",
