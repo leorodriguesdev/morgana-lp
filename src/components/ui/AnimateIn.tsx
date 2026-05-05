@@ -10,13 +10,16 @@ export type AnimVariant =
   | "scale-in"
   | "fade-in";
 
+/** Só as tags usadas no projeto — evita união enorme de tipos com `ref` (TS "too complex"). */
+export type AnimateInElement = "div" | "li" | "p" | "h2" | "article";
+
 interface AnimateInProps {
   children: React.ReactNode;
   variant?: AnimVariant;
   /** Delay em ms para efeito stagger */
   delay?: number;
   className?: string;
-  as?: keyof React.JSX.IntrinsicElements;
+  as?: AnimateInElement;
   /** Porcentagem do elemento visível para disparar (0–1) */
   threshold?: number;
   /** Animar apenas na primeira vez */
@@ -82,9 +85,9 @@ export function AnimateIn({
   };
 
   return (
-    // @ts-expect-error — `as` genérico com ref é type-safe em runtime
     <Tag
-      ref={ref}
+      /* ref: HTMLElement at runtime; asserção necessária com `Tag` polimórfico */
+      ref={ref as never}
       className={combined}
       style={{ "--anim-delay": `${delay}ms` } as CSSProperties}
       {...extraProps}
