@@ -1,7 +1,9 @@
 import Image from "next/image";
 import type { Metadata } from "next";
 import { PrimaryCta } from "@/components/event/PrimaryCta";
+import { HeroEventTitleCard } from "@/components/event/HeroEventTitleCard";
 import { MetaPixelLead } from "@/components/analytics/MetaPixelLead";
+import { landingConfig } from "@/config/landing";
 import { getWhatsappGroupUrl } from "@/lib/site-settings";
 
 /** Sempre busca URL do WhatsApp no servidor (Supabase/env) em tempo de request. */
@@ -10,16 +12,14 @@ export const dynamic = "force-dynamic";
 export const metadata: Metadata = {
   title: "Inscrição confirmada",
   description:
-    "Próximo passo: entre no grupo silencioso do WhatsApp para receber links das aulas, materiais e cronograma do curso gratuito Primeiros Passos para um AEE eficiente.",
+    "Próximo passo: grupo no WhatsApp com links das aulas, materiais e cronograma — curso gratuito Primeiros Passos no AEE (estudo de caso e PAEE).",
   robots: { index: false, follow: false },
 };
 
-/** Dimensões nativas dos assets (evita layout shift). */
+/** Dimensões nativas do banner superior (evita layout shift). */
 const CONFIRM_W = 2368;
 const CONFIRM_H = 470;
-const CRIATIVO_W = 715;
-const CRIATIVO_H = 188;
-/** Largura do criativo vs faixa de cima: 42rem (2xl) / 72rem (6xl) = 7/12 — mobile escala com o pai. */
+/** Largura do card do evento vs faixa de cima: 42rem (2xl) / 72rem (6xl) = 7/12 — mobile escala com o pai. */
 const CRIATIVO_WIDTH_VS_HERO = "min(42rem, calc(100% * 7 / 12))";
 
 const BENEFITS = [
@@ -55,14 +55,13 @@ export default async function InscricaoConfirmadaPage() {
           className="relative z-10 mx-auto min-w-0 max-w-full -mt-[5%]"
           style={{ width: CRIATIVO_WIDTH_VS_HERO }}
         >
-          <Image
-            src="/hero/criativo_primeiros_passos.png"
-            alt="Curso gratuito Primeiros Passos para um AEE eficiente"
-            width={CRIATIVO_W}
-            height={CRIATIVO_H}
-            quality={100}
-            className="h-auto w-full rounded-2xl sm:rounded-3xl"
-            sizes="(max-width: 1152px) calc((100vw - 3rem) * 7 / 12), 672px"
+          <HeroEventTitleCard
+            kicker={landingConfig.hero.kicker}
+            eventTitleLead={landingConfig.hero.eventTitleLead}
+            eventTitleSuffix={landingConfig.hero.eventTitleSuffix}
+            titleAs="div"
+            size="compact"
+            align="center"
           />
         </div>
       </div>
@@ -85,8 +84,9 @@ export default async function InscricaoConfirmadaPage() {
 
         <p className="mt-5 text-lg font-bold leading-snug text-white sm:text-xl">
           Você acaba de garantir sua vaga no curso gratuito{" "}
-          <span className="whitespace-nowrap sm:whitespace-normal">
-            Primeiros Passos para um AEE Eficiente.
+          <span className="text-balance sm:whitespace-normal">
+            {landingConfig.hero.eventTitleLead}{" "}
+            {landingConfig.hero.eventTitleSuffix}
           </span>
         </p>
 

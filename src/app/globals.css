@@ -21,41 +21,28 @@
   --font-sans: var(--font-poppins), ui-sans-serif, system-ui, sans-serif;
 }
 
+/* ── Marquee ─────────────────────────────────────────────────────── */
+
 @keyframes marquee-scroll {
-  0% {
-    transform: translateX(0);
-  }
-  100% {
-    transform: translateX(-50%);
-  }
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
 }
 
 .animate-marquee {
   animation: marquee-scroll 45s linear infinite;
 }
 
+/* ── Confirm badge ───────────────────────────────────────────────── */
+
 @keyframes confirm-badge-in {
-  0% {
-    opacity: 0;
-    transform: scale(0.88) translateY(10px);
-  }
-  55% {
-    opacity: 1;
-    transform: scale(1.06) translateY(0);
-  }
-  100% {
-    opacity: 1;
-    transform: scale(1) translateY(0);
-  }
+  0%   { opacity: 0; transform: scale(0.88) translateY(10px); }
+  55%  { opacity: 1; transform: scale(1.06) translateY(0); }
+  100% { opacity: 1; transform: scale(1) translateY(0); }
 }
 
 @keyframes confirm-badge-in-reduced {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
+  from { opacity: 0; }
+  to   { opacity: 1; }
 }
 
 .animate-confirm-badge {
@@ -65,6 +52,152 @@
 @media (prefers-reduced-motion: reduce) {
   .animate-confirm-badge {
     animation: confirm-badge-in-reduced 0.35s ease-out both;
+  }
+}
+
+/* ── Hero entrance (acima do fold, roda no load) ─────────────────── */
+
+@keyframes hero-fade-up {
+  from { opacity: 0; transform: translateY(28px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes hero-fade-right {
+  from { opacity: 0; transform: translateX(48px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes hero-scale-up {
+  from { opacity: 0; transform: scale(0.92) translateY(14px); }
+  60%  { transform: scale(1.03) translateY(0); }
+  to   { opacity: 1; transform: scale(1) translateY(0); }
+}
+
+@keyframes hero-reduced {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+.animate-hero-1 { animation: hero-fade-up   0.7s cubic-bezier(0.22,1,0.36,1) 0.08s both; }
+.animate-hero-2 { animation: hero-fade-up   0.7s cubic-bezier(0.22,1,0.36,1) 0.22s both; }
+.animate-hero-3 { animation: hero-fade-up   0.7s cubic-bezier(0.22,1,0.36,1) 0.36s both; }
+.animate-hero-4 { animation: hero-fade-up   0.7s cubic-bezier(0.22,1,0.36,1) 0.50s both; }
+.animate-hero-5 { animation: hero-fade-up   0.7s cubic-bezier(0.22,1,0.36,1) 0.64s both; }
+.animate-hero-6 { animation: hero-scale-up  0.8s cubic-bezier(0.22,1,0.36,1) 0.78s both; }
+.animate-hero-portrait { animation: hero-fade-right 0.9s cubic-bezier(0.22,1,0.36,1) 0.28s both; }
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-hero-1,
+  .animate-hero-2,
+  .animate-hero-3,
+  .animate-hero-4,
+  .animate-hero-5,
+  .animate-hero-6,
+  .animate-hero-portrait {
+    animation: hero-reduced 0.4s ease both;
+  }
+}
+
+/* ── CTA pulse-glow ──────────────────────────────────────────────── */
+
+@keyframes cta-pulse-glow {
+  0%, 100% { box-shadow: 0 4px 0 #289f00, 0 0 0 0 rgba(54,212,1,0); }
+  50%       { box-shadow: 0 4px 0 #289f00, 0 0 22px 8px rgba(54,212,1,0.35); }
+}
+
+.animate-cta-pulse {
+  animation: cta-pulse-glow 2.8s ease-in-out 1.2s infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-cta-pulse { animation: none; }
+}
+
+/* ── Scroll-triggered animations (via IntersectionObserver) ─────── */
+
+[class*="anim-"] {
+  --anim-delay: 0ms;
+}
+
+/* Fade Up */
+.anim-fade-up {
+  opacity: 0;
+  transform: translateY(32px);
+  transition:
+    opacity  0.65s cubic-bezier(0.22,1,0.36,1) var(--anim-delay),
+    transform 0.65s cubic-bezier(0.22,1,0.36,1) var(--anim-delay);
+}
+.anim-fade-up.in-view {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Fade Down */
+.anim-fade-down {
+  opacity: 0;
+  transform: translateY(-22px);
+  transition:
+    opacity  0.6s cubic-bezier(0.22,1,0.36,1) var(--anim-delay),
+    transform 0.6s cubic-bezier(0.22,1,0.36,1) var(--anim-delay);
+}
+.anim-fade-down.in-view {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Fade Left (entra da esquerda) */
+.anim-fade-left {
+  opacity: 0;
+  transform: translateX(-32px);
+  transition:
+    opacity  0.6s cubic-bezier(0.22,1,0.36,1) var(--anim-delay),
+    transform 0.6s cubic-bezier(0.22,1,0.36,1) var(--anim-delay);
+}
+.anim-fade-left.in-view {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+/* Fade Right (entra da direita) */
+.anim-fade-right {
+  opacity: 0;
+  transform: translateX(32px);
+  transition:
+    opacity  0.6s cubic-bezier(0.22,1,0.36,1) var(--anim-delay),
+    transform 0.6s cubic-bezier(0.22,1,0.36,1) var(--anim-delay);
+}
+.anim-fade-right.in-view {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+/* Scale In */
+.anim-scale-in {
+  opacity: 0;
+  transform: scale(0.90);
+  transition:
+    opacity  0.6s cubic-bezier(0.22,1,0.36,1) var(--anim-delay),
+    transform 0.6s cubic-bezier(0.22,1,0.36,1) var(--anim-delay);
+}
+.anim-scale-in.in-view {
+  opacity: 1;
+  transform: scale(1);
+}
+
+/* Fade In (só opacidade) */
+.anim-fade-in {
+  opacity: 0;
+  transition: opacity 0.7s ease var(--anim-delay);
+}
+.anim-fade-in.in-view {
+  opacity: 1;
+}
+
+/* Reduced motion: sem transforms, só fade */
+@media (prefers-reduced-motion: reduce) {
+  [class*="anim-"] {
+    transform: none !important;
+    transition: opacity 0.35s ease var(--anim-delay) !important;
   }
 }
 

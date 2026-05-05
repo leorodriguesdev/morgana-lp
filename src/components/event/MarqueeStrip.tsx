@@ -12,7 +12,7 @@ export function MarqueeStrip({ marquee }: MarqueeStripProps) {
 
   return (
     <div
-      className="-mt-px border-b border-brand-teal/20 bg-brand-teal-light py-3 text-brand-teal"
+      className="-mt-px border-y border-brand-teal/25 bg-gradient-to-r from-[#6bb8c2] via-brand-teal-light to-[#6bb8c2] py-3 text-brand-teal shadow-[0_3px_12px_rgba(45,143,181,0.2)]"
       role="presentation"
     >
       <div className="flex overflow-hidden whitespace-nowrap">

@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
+import { createPortal } from "react-dom";
 import { useRouter } from "next/navigation";
 import { PrimaryCta } from "./PrimaryCta";
 
@@ -223,7 +224,7 @@ export function SignupCtaWithModal({
         {label}
       </PrimaryCta>
 
-      {isOpen ? (
+      {isOpen ? createPortal(
         <div
           className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 px-4"
           role="dialog"
@@ -410,7 +411,8 @@ export function SignupCtaWithModal({
               </p>
             ) : null}
           </div>
-        </div>
+        </div>,
+        document.body
       ) : null}
     </>
   );

@@ -37,6 +37,7 @@ export function PrimaryCta({
       "motion-safe:hover:shadow-[0_6px_16px_rgba(54,212,1,0.35)] motion-safe:active:translate-y-px",
     hero:
       "min-h-[38px] w-full bg-gradient-to-b from-[#A8FF03] to-[#36D401] text-[clamp(0.8125rem,2.2vw,1.125rem)] tracking-wide shadow-[0_4px_0_#289f00] sm:w-full sm:px-14 " +
+      "animate-cta-pulse " +
       "motion-safe:hover:shadow-[0_6px_0_#289f00] motion-safe:active:translate-y-0.5 motion-safe:active:shadow-[0_2px_0_#289f00] motion-safe:active:scale-[0.99]",
   };
 

@@ -25,7 +25,7 @@ export default function Home() {
         <SectionLearn learn={cfg.learn} />
         <SectionLessons lessons={cfg.lessons} />
         <SectionAudience audience={cfg.audience} />
-        <SectionPromoImage promo={cfg.promoImage} />
+        <SectionPromoImage promo={cfg.promoImage} cta={cfg.cta} />
         <SectionAbout about={cfg.about} />
         <SectionTestimonials testimonials={cfg.testimonials} />
         <SectionFinalCta final={cfg.finalCta} />

@@ -23,18 +23,25 @@ export interface EventLandingContent {
     href: string;
   };
   hero: {
-    /** Texto alternativo da arte vertical “Primeiros passos” */
+    /** Descrição curta do bloco de título (acessibilidade / previews) */
     bannerImageAlt: string;
+    kicker: string;
+    /** Destaque no card (~48px no desktop; fluid no mobile) */
+    eventTitleLead: string;
+    /** Continuação do título no mesmo bloco */
+    eventTitleSuffix: string;
+    /** Subtítulo em destaque abaixo do card (ex.: tema do evento) */
     headline: string;
     dates: string;
     eventLines: [string, string];
-    supporting: string;
+    /** Destaque na caixa laranja do hero */
+    promise: string;
     /** Caminhos em /public/hero */
     images: {
       /** Faixa decorativa full-width no topo (ex.: criativo_topo.png) */
       topo: string;
-      /** Arte azul “Primeiros passos” (export vertical; giramos no layout) */
-      bannerVertical: string;
+      /** Legado: arte PNG; opcional se o título for só em código */
+      bannerVertical?: string;
       fundoRetrato: string;
       retrato: string;
     };
@@ -46,6 +53,8 @@ export interface EventLandingContent {
   };
   pain: {
     id: string;
+    /** Parágrafo de urgência acima do título da seção */
+    leadIn?: string;
     titleLine1: string;
     titleHighlight: string;
     bullets: string[];
@@ -71,7 +80,13 @@ export interface EventLandingContent {
   };
   promoImage: {
     id: string;
+    /** Rótulo da seção para leitores de tela */
     alt: string;
+    title: string;
+    body: string;
+    /** Última linha em negrito (opcional) */
+    closingBold?: string;
+    ctaLabel: string;
   };
   about: {
     id: string;

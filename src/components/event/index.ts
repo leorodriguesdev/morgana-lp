@@ -1,4 +1,5 @@
 export { PrimaryCta } from "./PrimaryCta";
+export { HeroEventTitleCard } from "./HeroEventTitleCard";
 export { EventHero } from "./EventHero";
 export { MarqueeStrip } from "./MarqueeStrip";
 export { SectionPain } from "./SectionPain";

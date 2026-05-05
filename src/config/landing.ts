@@ -3,12 +3,12 @@ import type { EventLandingContent } from "@/types/landing";
 export const landingConfig: EventLandingContent = {
   site: {
     name: "Primeiros Passos — Morgana da Cruz",
-    title: "Primeiros Passos — Morgana da Cruz",
+    title: "Primeiros Passos no AEE — Morgana da Cruz",
     description:
-      "Evento on-line e gratuito: 26, 27 e 28 de maio. Certificado de 20h. Inscrições para professoras do AEE.",
+      "Evento gratuito on-line: estudo de caso e PAEE em 3 aulas — 26, 27 e 28 de maio. Certificado de 20h. Para professoras do AEE.",
     shareImage: "/banner.png",
     shareImageAlt:
-      "Curso gratuito Primeiros Passos para um AEE eficiente — 26, 27 e 28 de maio. Da Nova Política de Inclusão ao PAEE.",
+      "Primeiros Passos no AEE: Estudo de Caso no AEE do zero ao PAEE — 26, 27 e 28 de maio. Evento on-line e gratuito.",
   },
   cta: {
     primaryLabel: "Quero me inscrever agora",
@@ -16,15 +16,17 @@ export const landingConfig: EventLandingContent = {
   },
   hero: {
     bannerImageAlt:
-      "Curso gratuito, Primeiros passos para um AEE eficiente — faixa promocional",
-    headline: "Da Nova Política de Inclusão ao PAEE",
+      "Curso gratuito — Primeiros Passos no AEE: Estudo de Caso no AEE do zero ao PAEE",
+    kicker: "Curso gratuito",
+    eventTitleLead: "PRIMEIROS PASSOS",
+    eventTitleSuffix: "no AEE",
+    headline: "Estudo de Caso no AEE do zero ao PAEE",
     dates: "26, 27 e 28 de maio",
     eventLines: ["Evento on-line e gratuito", "Certificado de 20h"],
-    supporting:
-      "Inscreva-se gratuitamente e comece o ano no AEE sem medo, sem improviso e sem erros.",
+    promise:
+      "Você vai aprender em 3 aulas a fazer o estudo de caso do jeito certo, com segurança, mesmo que hoje você não saiba nem por onde começar.",
     images: {
       topo: "/hero/criativo_topo.png",
-      bannerVertical: "/hero/criativo_primeiros_passos.png",
       fundoRetrato: "/hero/fundo_morgada.png",
       retrato: "/hero/morgana.png",
     },
@@ -42,11 +44,11 @@ export const landingConfig: EventLandingContent = {
       "A Nova Política de Inclusão já está em vigor.",
       "As cobranças aumentaram.",
       "Os documentos ficaram mais confusos.",
-      "E o início do ano letivo se aproxima com aluno novo, sem laudo e sem histórico.",
+      "E o segundo semestre segue com estudos de caso e PAEE em aberto — sem margem para improviso.",
     ],
     titleIfYou: "Se você:",
     painCards: [
-      "Tem medo de errar no AEE em 2026",
+      "Tem medo de errar no AEE neste ano letivo",
       "Não sabe exatamente o que a política espera de você",
       "Fica insegura com avaliação, PAEE, PDI, PEI e registros",
       "Já começou outros anos “apagando incêndio”",
@@ -93,7 +95,7 @@ export const landingConfig: EventLandingContent = {
     title: "Para quem é este evento?",
     forItems: [
       "Professoras do AEE",
-      "Quem vai iniciar no AEE em 2026",
+      "Quem vai iniciar ou já atua no AEE neste ano letivo",
       "Quem quer se atualizar com a Nova Política de Inclusão",
       "Quem não quer errar, se sobrecarregar ou improvisar",
     ],
@@ -101,7 +103,13 @@ export const landingConfig: EventLandingContent = {
   },
   promoImage: {
     id: "destaque",
-    alt: "Destaque visual do evento — substituir pela arte final exportada do Figma",
+    alt: "Por que participar agora — urgência do ano letivo e PAEE",
+    title: "Por que participar agora?",
+    body:
+      "Por que o ano letivo já está quase na metade e muitas professoras ainda nem começaram a fazer os estudos de caso ou ainda estão sofrendo para criar os PAEE. Este é um momento crítico do ano.",
+    closingBold:
+      "Não dá para continuar com dúvidas e se sentindo insegura no segundo semestre.",
+    ctaLabel: "Garantir meu ingresso gratuito",
   },
   about: {
     id: "sobre",
@@ -110,8 +118,7 @@ export const landingConfig: EventLandingContent = {
       "Olá, sou a professora Morgana formada em Pedagogia com especialização em educação especial e Psicopedagogia Clínica e institucional. Trabalho na educação desde 2010. Já atuei em Escolas Especiais e escolas regulares, com turmas de Anos Iniciais. Atuei também na Educação de Jovens e adultos, com alfabetização e nivelamento. Também fiz atendimentos psicopedagógicos clínicos durante um ano",
       "Em 2016 após ser aprovada em um concurso comecei a trabalhar no AEE e descobri um fazer pedagógico diferente do que eu já havia feito até então. Estruturei o AEE da escola e desde então os atendimentos são pautados na seriedade, responsabilidade e ética, exercendo assim, papel fundamental na vida dos alunos com deficiência da escola em que trabalho. Além de profissional, sou mãe do João Maurício e esposa.",
     ],
-    statsLine:
-      "No meu curso Descomplique o AEE já são mais de\n1800 alunas descomplicadas por todo o Brasil.",
+    statsLine: "Já são mais de 2400 alunas descomplicadas.",
   },
   testimonials: {
     id: "depoimentos",

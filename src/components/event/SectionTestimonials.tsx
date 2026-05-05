@@ -1,5 +1,8 @@
 import Image from "next/image";
+import { landingConfig } from "@/config/landing";
 import { Container } from "@/components/ui/Container";
+import { AnimateIn } from "@/components/ui/AnimateIn";
+import { HeroEventTitleCard } from "./HeroEventTitleCard";
 import type { EventLandingContent } from "@/types/landing";
 
 interface SectionTestimonialsProps {
@@ -26,20 +29,27 @@ export function SectionTestimonials({ testimonials }: SectionTestimonialsProps) 
         <h2 id="depoimentos-titulo" className="sr-only">
           {testimonials.heading}
         </h2>
-        <div className="relative mx-auto aspect-715/188 w-full max-w-[560px] overflow-hidden rounded-[10px]">
-          <Image
-            src="/hero/criativo_primeiros_passos.png"
-            alt=""
-            fill
-            quality={100}
-            unoptimized
-            className="object-cover"
-            sizes="(max-width: 768px) 100vw, 715px"
+        <AnimateIn variant="scale-in" threshold={0.1}>
+          <HeroEventTitleCard
+            kicker={landingConfig.hero.kicker}
+            eventTitleLead={landingConfig.hero.eventTitleLead}
+            eventTitleSuffix={landingConfig.hero.eventTitleSuffix}
+            titleAs="div"
+            size="compact"
+            align="center"
+            decorative
           />
-        </div>
+        </AnimateIn>
         <ul className="mt-10 grid grid-cols-1 gap-4 md:grid-cols-2">
           {testimonialImages.map((image, index) => (
-            <li key={image.src} className="overflow-hidden rounded-xl">
+            <AnimateIn
+              key={image.src}
+              as="li"
+              variant="fade-up"
+              delay={index * 80}
+              threshold={0.08}
+              className="overflow-hidden rounded-xl"
+            >
               <Image
                 src={image.src}
                 alt={`Depoimento ${index + 1}`}
@@ -50,7 +60,7 @@ export function SectionTestimonials({ testimonials }: SectionTestimonialsProps) 
                 className="h-auto w-full object-contain"
                 sizes="(max-width: 768px) 100vw, 50vw"
               />
-            </li>
+            </AnimateIn>
           ))}
         </ul>
       </Container>
