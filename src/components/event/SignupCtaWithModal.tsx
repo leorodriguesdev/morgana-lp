@@ -118,7 +118,9 @@ export function SignupCtaWithModal({
           email: normalizedEmail,
           phone: phone.trim(),
           event_source_url:
-            typeof window !== "undefined" ? window.location.href : "",
+            typeof window !== "undefined"
+              ? `${window.location.origin}/inscricao-confirmada${window.location.search}`
+              : "",
           ...Object.fromEntries(
             UTM_KEYS.map((k) => [k, attribution[k] ?? ""]),
           ),
