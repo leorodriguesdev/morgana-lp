@@ -73,20 +73,20 @@ export const landingConfig: EventLandingContent = {
       {
         number: "Aula 01",
         titleHtml:
-          "<strong>O que mudou com a nova política de inclusão</strong> (e por que o AEE passou a ser cobrado)",
-        body: "Nesta aula você deixará de se sentir insegura diante das cobranças da escola e da rede e passará a entender qual é o seu papel no AEE segundo a nova política de inclusão.",
+          "<strong>Estudo de Caso no AEE:</strong> por onde começar e o que ninguém te explicou antes",
+        body: "Nesta aula, você vai entender o que realmente é um estudo de caso no AEE e por que tantas professoras se sentem perdidas nessa etapa. Você vai aprender como começar do jeito certo, mesmo sem laudo, sem modelo pronto e sem saber exatamente o que fazer no início do acompanhamento do aluno.",
       },
       {
         number: "Aula 02",
         titleHtml:
-          "<strong>Aluno novo, sem laudo e sem histórico:</strong> o que fazer no AEE desde o primeiro dia",
-        body: "Na aula 2 você vai parar de se sentir perdida diante do aluno e passará a avaliar, compreender e agir com segurança no AEE desde o primeiro atendimento.",
+          "<strong>Estudo de Caso na prática:</strong> como organizar informações e identificar",
+        body: "Nesta aula, você vai entender como transformar observações soltas em um estudo de caso organizado, com clareza e intenção pedagógica. Você vai aprender o que escrever, como identificar barreiras e como construir um documento que realmente oriente suas decisões no AEE.",
       },
       {
         number: "Aula 03",
         titleHtml:
-          "<strong>PAEE na prática:</strong> como transformar avaliação em plano de atendimento",
-        body: "Na última e mais importante aula, você deixará de ver os documentos do AEE como burocracia e descobrirá como usar o PAEE como ferramenta para orientar o atendimento e fortalecer a inclusão na escola.",
+          "<strong>Do Estudo de Caso ao PAEE:</strong> como transformar avaliação em planejamento no AEE",
+        body: "Você vai aprender como sair da avaliação e estruturar um PAEE claro, coerente e alinhado à nova política de inclusão. Ao final da aula, você terá mais segurança para organizar objetivos, estratégias e atendimentos sem improviso no AEE.",
       },
     ],
   },
