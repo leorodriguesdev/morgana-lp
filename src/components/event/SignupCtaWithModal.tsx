@@ -47,11 +47,16 @@ export function SignupCtaWithModal({
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [nameError, setNameError] = useState("");
   const [emailError, setEmailError] = useState("");
+  const [phoneError, setPhoneError] = useState("");
   const [submitError, setSubmitError] = useState("");
 
   const isFormValid = useMemo(() => {
-    return name.trim().length >= 2 && EMAIL_REGEX.test(email.trim());
-  }, [name, email]);
+    return (
+      name.trim().length >= 2 &&
+      EMAIL_REGEX.test(email.trim()) &&
+      phone.trim().length >= 8
+    );
+  }, [name, email, phone]);
 
   const canSubmit = isFormValid && !isSubmitting;
 
@@ -74,6 +79,7 @@ export function SignupCtaWithModal({
     setPhone("");
     setNameError("");
     setEmailError("");
+    setPhoneError("");
     setSubmitError("");
   };
 
@@ -93,11 +99,14 @@ export function SignupCtaWithModal({
     const currentEmailError = EMAIL_REGEX.test(normalizedEmail)
       ? ""
       : "Informe um e-mail válido.";
+    const currentPhoneError =
+      phone.trim().length >= 8 ? "" : "Informe seu WhatsApp com DDD.";
 
     setNameError(currentNameError);
     setEmailError(currentEmailError);
+    setPhoneError(currentPhoneError);
 
-    if (currentNameError || currentEmailError) {
+    if (currentNameError || currentEmailError || currentPhoneError) {
       return;
     }
 
@@ -184,7 +193,7 @@ export function SignupCtaWithModal({
                   Confirmar inscrição
                 </h2>
                 <p className="mt-1 text-sm text-brand-ink/80">
-                  Preencha nome e e-mail para continuar. WhatsApp é opcional.
+                  Preencha todos os campos para continuar.
                 </p>
               </div>
               <button
@@ -253,7 +262,7 @@ export function SignupCtaWithModal({
                   htmlFor="signup-phone"
                   className="mb-1 block text-sm font-semibold text-brand-ink"
                 >
-                  WhatsApp <span className="font-normal text-brand-ink/60">(opcional)</span>
+                  WhatsApp
                 </label>
                 <input
                   id="signup-phone"
@@ -264,8 +273,14 @@ export function SignupCtaWithModal({
                   autoComplete="tel"
                   inputMode="tel"
                   className="w-full rounded-lg border border-brand-ink/20 px-3 py-2 text-sm outline-none transition focus:border-brand-teal focus:ring-2 focus:ring-brand-teal/20"
-                  placeholder="+5587999999999"
+                  placeholder="+5511999999999"
+                  required
                 />
+                {phoneError ? (
+                  <p className="mt-1 text-xs font-medium text-red-600">
+                    {phoneError}
+                  </p>
+                ) : null}
               </div>
 
               <PrimaryCta
@@ -286,21 +301,7 @@ export function SignupCtaWithModal({
                   {submitError}
                 </p>
               ) : null}
-
-              <button
-                type="button"
-                onClick={handleClose}
-                className="w-full rounded-lg border border-brand-ink/20 px-4 py-2 text-sm font-semibold text-brand-ink transition-[transform,background-color,box-shadow] duration-150 hover:border-brand-teal/30 hover:bg-gray-50 hover:shadow-sm motion-safe:active:scale-[0.98]"
-              >
-                Cancelar
-              </button>
             </form>
-
-            {!isFormValid ? (
-              <p className="mt-4 text-center text-xs text-brand-ink/60">
-                Use um nome válido e um e-mail válido.
-              </p>
-            ) : null}
           </div>
         </div>,
         document.body
